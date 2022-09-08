@@ -50,6 +50,8 @@ public class ComplexExamples {
             new Person(6, "Amelia"),
             new Person(7, "Amelia"),
             new Person(8, "Amelia"),
+            new Person(9, null),
+            null
     };
         /*  Raw data:
 
@@ -114,8 +116,8 @@ public class ComplexExamples {
                 Value:1
          */
 
-        Arrays.stream(RAW_DATA).distinct().sorted(Comparator.comparing(Person::getId).thenComparing(Person::getName))
-                .collect(groupingBy(Person::getName, Collectors.counting())).forEach((k,v) -> System.out.println(k + ":" + v));
+        Arrays.stream(RAW_DATA).filter(p -> p != null && p.getName() != null).distinct().sorted(Comparator.comparing(Person::getId).thenComparing(Person::getName))
+                .collect(groupingBy(Person::getName, Collectors.counting())).forEach((k,v) -> System.out.println("Key:" + k + "\nValue:" + v));
 
         System.out.println();
 
@@ -141,19 +143,16 @@ public class ComplexExamples {
         boolean f3 = fuzzySearch("cartwheel", "cartwheel"); // true
         boolean f4 = fuzzySearch("cwheeel", "cartwheel"); // false
         boolean f5 = fuzzySearch("lw", "cartwheel"); // false
-        System.out.println("Results: \n" + f0 + " " +f1 + " " + f2 + " " + f3 + " " + f4 + " " + f5);
-
+        System.out.println("Results: \n" + f0 + " " + f1 + " " + f2 + " " + f3 + " " + f4 + " " + f5);
     }
 
     public static boolean fuzzySearch(String what, String where) {
-        String[] whatArray = what.split("");
-        StringBuilder builder = new StringBuilder();
-        String struct = "(.+)?";
-        builder.append(struct);
-        for (String s : whatArray) {
-            builder.append(s).append(struct);
+        if (what.length() > where.length()) return false;
+        if (what.charAt(0) == where.charAt(0)) {
+            if (what.substring(1).length() == 0) return true;
+           return fuzzySearch(what.substring(1), where.substring(1));
         }
-        return where.matches(builder.toString());
+        return fuzzySearch(what, where.substring(1));
     }
 
     public static int[] twoSum(int[] numbers, int target) {
