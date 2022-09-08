@@ -147,7 +147,7 @@ public class ComplexExamples {
     }
 
      public static boolean fuzzySearch(String what, String where) {
-        if (what.length() > where.length()) return false;
+        if ((what == null || where == null) || what.length() > where.length()) return false;
         if (what.charAt(0) == where.charAt(0)) {
             if (what.substring(1).length() == 0) return true;
             what = what.substring(1);
