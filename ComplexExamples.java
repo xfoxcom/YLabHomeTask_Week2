@@ -146,11 +146,11 @@ public class ComplexExamples {
         System.out.println("Results: \n" + f0 + " " + f1 + " " + f2 + " " + f3 + " " + f4 + " " + f5);
     }
 
-    public static boolean fuzzySearch(String what, String where) {
+     public static boolean fuzzySearch(String what, String where) {
         if (what.length() > where.length()) return false;
         if (what.charAt(0) == where.charAt(0)) {
             if (what.substring(1).length() == 0) return true;
-           return fuzzySearch(what.substring(1), where.substring(1));
+            what = what.substring(1);
         }
         return fuzzySearch(what, where.substring(1));
     }
