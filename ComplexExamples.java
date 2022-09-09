@@ -116,8 +116,12 @@ public class ComplexExamples {
                 Value:1
          */
 
-        Arrays.stream(RAW_DATA).filter(p -> p != null && p.getName() != null).distinct().sorted(Comparator.comparing(Person::getId).thenComparing(Person::getName))
-                .collect(groupingBy(Person::getName, Collectors.counting())).forEach((k,v) -> System.out.println("Key:" + k + "\nValue:" + v));
+        Arrays.stream(RAW_DATA)
+            .filter(p -> p != null && p.getName() != null)
+            .distinct()
+            .sorted(Comparator.comparing(Person::getId).thenComparing(Person::getName))
+            .collect(groupingBy(Person::getName, Collectors.counting()))
+            .forEach((k,v) -> System.out.println("Key:" + k + "\nValue:" + v));
 
         System.out.println();
 
